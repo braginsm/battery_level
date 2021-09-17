@@ -14,6 +14,10 @@ class BatteryLevel {
   }
 
   static const MethodChannel _channel = MethodChannel('battery_level');
+  
+  Future<void> getLevel() async {
+    _channel.invokeMethod(getBatteryLevelMethod);
+  }
 
   void _initBatteryLevel() {
     _channel.setMethodCallHandler((call) async{

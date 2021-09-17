@@ -16,7 +16,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  double _batteryLevel = 0;
+  double _level = 0;
+  late BatteryLevel _batteryLevel;
 
   @override
   void initState() {
@@ -26,9 +27,9 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    var monitor = BatteryLevel((level) {
+    _batteryLevel = BatteryLevel((level) {
       setState(() {
-        _batteryLevel = level;
+        _level = level;
       });
     });
   }
@@ -41,7 +42,12 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Battary level: $_batteryLevel'),
+          child: Column(
+            children: [
+              Text('Battary level: $_level'),
+              TextButton(onPressed: () => _batteryLevel.getLevel(), child: const Text("Обновить"),),
+            ],
+          ),
         ),
       ),
     );
